@@ -1,0 +1,339 @@
+{
+  "info": {
+    "name": "PM Internship Smart Allocation Engine - API Collection",
+    "description": "Complete Postman collection for all 9 modular REST API routers in the AI-Based Smart Allocation Engine academic prototype.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "studentToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Authentication",
+      "item": [
+        {
+          "name": "Student Login (Rahul Sharma)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rahul.sharma@pm-internship.edu.in\",\n  \"password\": \"StudentPass@2026\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@pm-internship.edu.in\",\n  \"password\": \"AdminSecurePass@2026\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register New Student",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/register",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"new.student@pm-internship.edu.in\",\n  \"password\": \"SecurePass@2026\",\n  \"full_name\": \"New Candidate\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Student Profile & Skills",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/students/profile/me",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Update Profile Details",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/students/profile/me",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"+91-9876543210\",\n  \"college_name\": \"Delhi Technological University\",\n  \"degree\": \"B.Tech\",\n  \"branch\": \"Computer Science & Engineering\",\n  \"graduation_year\": 2026,\n  \"cgpa\": 8.7,\n  \"preferred_locations\": [\"Delhi\", \"Mumbai\", \"Remote\"],\n  \"preferred_industries\": [\"Information Technology\", \"Artificial Intelligence\"],\n  \"bio\": \"Passionate cloud & backend developer\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Add Skill to Profile",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/students/skills",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"skill_name\": \"Kubernetes\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Internships Catalog",
+      "item": [
+        {
+          "name": "Search & Filter Internships",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/internships?industry=IT&page=1&page_size=10"
+          }
+        },
+        {
+          "name": "Get Internship Detail",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/internships/1"
+          }
+        },
+        {
+          "name": "Check Candidate Eligibility",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/internships/1/eligibility",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. AI Matching & Recommendations",
+      "item": [
+        {
+          "name": "Get AI Recommended Internships",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/matching/recommendations?skill_weight=0.50&education_weight=0.20&location_weight=0.15&industry_weight=0.15",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Skill Gap Analysis for Internship",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/matching/skill-gap/1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Applications",
+      "item": [
+        {
+          "name": "Submit Application",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/applications",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"internship_id\": 1,\n  \"cover_note\": \"Excited to apply for this backend opportunity!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get My Applications",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/applications/my",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{studentToken}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Smart Allocation Engine (Admin)",
+      "item": [
+        {
+          "name": "Execute Allocation Round 1",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/allocations/run",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"allocation_round\": 1,\n  \"min_score_threshold\": 40.0,\n  \"auto_confirm\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "List All Allocations",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/allocations?round_number=1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Simulate Gale-Shapley Stable Marriage",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/allocations/gale-shapley?min_score_threshold=35.0",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Export Allocations CSV",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/allocations/export?round_number=1",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Analytics & Admin Metrics",
+      "item": [
+        {
+          "name": "Get Admin KPI Metrics",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/admin-kpis",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
